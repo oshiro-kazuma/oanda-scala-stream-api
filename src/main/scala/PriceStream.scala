@@ -29,12 +29,11 @@ object PriceStream extends App {
         val br: BufferedReader = new BufferedReader(new InputStreamReader(stream))
 
         // print realtime prices
-        Stream.continually(br.readLine()).takeWhile( _ ne null) foreach { line =>
-          line.contains("heartbeat") match {
-            case false => Console println line
-            case true => // nothing to do
-          }
-        }
+        Stream.continually(br.readLine())
+          .takeWhile(_ ne null)
+          .filterNot(_.contains("heartbeat"))
+          .foreach(println)
+
       case false =>
         // print error message
         val responseString = EntityUtils.toString(entity, "UTF-8")
