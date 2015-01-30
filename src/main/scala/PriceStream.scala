@@ -31,7 +31,7 @@ object PriceStream extends App {
         // print realtime prices
         Stream.continually(br.readLine())
           .takeWhile(_ ne null)
-          .filterNot(_.contains("heartbeat"))
+          .filter(!_.contains("heartbeat"))
           .foreach(println)
 
       case false =>
