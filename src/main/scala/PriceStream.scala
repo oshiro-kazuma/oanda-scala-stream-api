@@ -1,4 +1,4 @@
-import java.io.{InputStream, BufferedReader, InputStreamReader}
+import scala.io.{BufferedSource, Source}
 import org.apache.http._
 import org.apache.http.client.methods._
 import org.apache.http.impl.client.{CloseableHttpClient, HttpClientBuilder}
@@ -25,12 +25,9 @@ object PriceStream extends App {
 
     resp.getStatusLine.getStatusCode == 200 && entity != null match {
       case true =>
-        val stream: InputStream = entity.getContent
-        val br: BufferedReader = new BufferedReader(new InputStreamReader(stream))
-
         // print realtime prices
-        Stream.continually(br.readLine())
-          .takeWhile(_ ne null)
+        val bs: BufferedSource = Source.fromInputStream(entity.getContent)
+        bs.getLines()
           .filter(!_.contains("heartbeat"))
           .foreach(println)
 
