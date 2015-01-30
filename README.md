@@ -1,4 +1,4 @@
-trade
+oanda-scala-stream-api
 ==================
 
 OANDA REST APIにつないでみる
